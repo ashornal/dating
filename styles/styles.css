@@ -10,3 +10,12 @@ This is the css for the home page of the dating site.
     height: 450px;
 
 }
+p.italic {
+    font-style: italic;
+}
+#bold {
+    font-weight: bold;
+}
+body{
+    padding-top: 80px;
+}
