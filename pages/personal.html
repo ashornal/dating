@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Personal Information</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+<div class="container-fluid" style="padding-left: 35px">
+    <h1>Personal Information</h1>
+    <hr>
+    <form action="./profile" method="post">
+        <div class="row">
+
+
+
+            <div class="col-lg-6 ">
+
+                <h5>First Name</h5>
+                <input class="form-control" type="text" name="firstName"></br>
+                <h5>Last Name</h5>
+                <input class="form-control" type="text" name="lastName"></br>
+                <h5>Age</h5>
+                <input class="form-control" type="text" name="age"></br>
+                <h5>Gender</h5>
+                <label class="radio-inline"><input type="radio" name="gender" value="male"> Male</label>&nbsp;&nbsp;
+                <label class="radio-inline"><input type="radio" name="gender" value="female"> Female</label><br>
+                <h5>Phone Number</h5>
+                <input class="form-control" type="text" name="phone"></br>
+
+
+            </div>
+
+            <div class="col-lg-6">
+                <h4>Note:</h4>
+
+            </div>
+        </div>
+        <div>
+            <button class="btn float-right btn-primary" type="submit">Next ></button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
