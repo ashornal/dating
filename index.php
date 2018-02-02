@@ -39,8 +39,21 @@ $f3->route("POST /pages/profile", function()
 {
     $template = new Template();
     echo $template->render('pages/profile.html');
-    $_SESSION['animal'] = $_POST['animal'];
+    $_SESSION['firstName'] = $_POST['firstName'];
+    $_SESSION['lastName'] = $_POST['lastName'];
+    $_SESSION['age'] = $_POST['age'];
+    $_SESSION['gender'] = $_POST['gender'];
+    $_SESSION['phone'] = $_POST['phone'];
 }
+);
+$f3->route("POST /pages/interests", function()
+{
+    $template = new Template();
+    echo $template->render('pages/interests.html');
+    $_SESSION['email'] = $_POST['email'];
+    $_SESSION['state'] = $_POST['state'];
+    $_SESSION['seeking'] = $_POST['seeking'];
+    $_SESSION['bio'] = $_POST['bio'];}
 );
 /*
 $f3->route("POST /pets/results", function()
