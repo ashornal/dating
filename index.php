@@ -55,6 +55,18 @@ $f3->route("POST /pages/interests", function()
     $_SESSION['seeking'] = $_POST['seeking'];
     $_SESSION['bio'] = $_POST['bio'];}
 );
+$f3->route('GET|POST /pages/summary', function($f3) {
+    $_SESSION['indoor'] = $_POST['indoor'];
+    echo "<h1>".$_SESSION['indoor']."</h1>";
+    $f3->set('indoor', $_SESSION['indoor']);
+    $f3->set('firstName', $_SESSION['firstName']);
+    $f3->set('lastName', $_SESSION['lastName']);
+    $f3->set('phone', $_SESSION['phone']);
+    $f3->set('phone', $_SESSION['phone']);
+    $template = new Template();
+    echo $template->render('pages/summary.html');
+}
+);
 /*
 $f3->route("POST /pets/results", function()
 {
