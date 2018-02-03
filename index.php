@@ -34,73 +34,114 @@ $f3->route('GET /', function()
 }
 );
 //form 1
-$f3->route("GET /pages/personal", function()
+$f3->route("GET|POST /pages/personal", function($f3, $params)
 {
+    if(isset($_POST['submit']))
+    {
+        $firstName = $_POST['firstName'];
+        $lastName = $_POST['lastName'];
+        $age = $_POST['age'];
+        $gender = $_POST['gender'];
+        $phone = $_POST['phone'];
+        $_SESSION['firstName'] = $firstName;
+        $_SESSION['lastName'] = $lastName;
+        $_SESSION['age'] = $age;
+        $_SESSION['gender'] = $gender;
+        $_SESSION['phone'] = $phone;
+
+        include('model/validate.php');
+
+        $f3->set('firstName', $firstName);
+        $f3->set('lastName', $lastName);
+        $f3->set('age', $age);
+        $f3->set('gender', $gender);
+        $f3->set('phone', $phone);
+        $f3->set('errors', $errors);
+        $f3->set('success', $success);
+    }
     $template = new Template();
     echo $template->render('pages/personal.html');
+    if($success) {
+        $f3->reroute('./profile');
+    }
 }
 );
 //form 2
-$f3->route("POST /pages/profile", function()
+$f3->route("GET|POST /pages/profile", function($f3, $params)
 {
+    if(isset($_POST['submit']))
+    {
+        $email = $_POST['email'];
+        $state = $_POST['state'];
+        $bio = $_POST['bio'];
+        $seeking = $_POST['seeking'];
+
+        $_SESSION['email'] = $email;
+        $_SESSION['state'] = $state;
+        $_SESSION['bio'] = $bio;
+        $_SESSION['seeking'] = $seeking;
+
+        include('model/validate.php');
+
+        $f3->set('email', $email);
+        $f3->set('state', $state);
+        $f3->set('bio', $bio);
+        $f3->set('seeking', $seeking);
+        $f3->set('errors', $errors);
+        $f3->set('success', $success);
+    }
     $template = new Template();
     echo $template->render('pages/profile.html');
-    $_SESSION['firstName'] = $_POST['firstName'];
-    $_SESSION['lastName'] = $_POST['lastName'];
-    $_SESSION['age'] = $_POST['age'];
-    $_SESSION['gender'] = $_POST['gender'];
-    $_SESSION['phone'] = $_POST['phone'];
+    if($success)
+    {
+        $f3->reroute('./interests');
+    }
+
 }
 );
 //form 3
-$f3->route("POST /pages/interests", function()
+$f3->route("GET|POST /pages/interests", function($f3,$params)
 {
+    if (isset($_POST['submit'])) {
+        $indoor = $_POST['indoors'];
+        $outdoor = $_POST['outdoors'];
+
+        $_SESSION['indoor'] = $indoor;
+        $_SESSION['outdoor'] = $outdoor;
+
+        include('model/validate.php');
+
+        $f3->set('indoor', $indoor);
+        $f3->set('outdoor', $indoor);
+        $f3->set('errors', $errors);
+        $f3->set('success', $success);
+    }
     $template = new Template();
     echo $template->render('pages/interests.html');
-    $_SESSION['email'] = $_POST['email'];
-    $_SESSION['state'] = $_POST['state'];
-    $_SESSION['seeking'] = $_POST['seeking'];
-    $_SESSION['bio'] = $_POST['bio'];}
+    if ($success) {
+        $f3->reroute('./summary');
+    }
+}
 );
 //summary
-$f3->route('GET|POST /pages/summary', function($f3) {
-    $_SESSION['indoor'] = $_POST['indoor'];
-    echo "<h1>".$_SESSION['indoor']."</h1>";
-    $f3->set('indoor', $_SESSION['indoor']);
+$f3->route('GET|POST /pages/summary', function($f3,$params) {
     $f3->set('firstName', $_SESSION['firstName']);
     $f3->set('lastName', $_SESSION['lastName']);
+    $f3->set('age', $_SESSION['age']);
+    $f3->set('gender', $_SESSION['gender']);
     $f3->set('phone', $_SESSION['phone']);
-    $f3->set('phone', $_SESSION['phone']);
+    $f3->set('email', $_SESSION['email']);
+    $f3->set('state', $_SESSION['state']);
+    $f3->set('seeking', $_SESSION['seeking']);
+    $f3->set('indoor', $_SESSION['indoor']);
+    $f3->set('outdoor', $_SESSION['outdoor']);
+    $f3->set('bio', $_SESSION['bio']);
+
     $template = new Template();
     echo $template->render('pages/summary.html');
+
 }
 );
-/*
-
-$f3->route("GET|POST /new-pet", function($f3)
-{
-
-
-    if(isset($_POST['submit'])) {
-
-        $color = $_POST['pet-color'];
-        $type = $_POST['pet-type'];
-        $name = $_POST['pet-name'];
-
-
-        include ('model/validate.php');
-
-    }
-    $f3->set('color', $color);
-    $f3->set('type', $type);
-    $f3->set('name', $name);
-    $f3->set('errors', $errors);
-    $f3->set('success', $success);
-
-    $template = new Template();
-    echo $template->render('views/new-pet.html');
-}
-);*/
 
 //Run Fat-Free
 $f3->run();
