@@ -18,24 +18,38 @@
 <div class="container-fluid" style="padding-left: 35px">
     <h1>Personal Information</h1>
     <hr>
-    <form action="./profile" method="post">
+    <form action="" method="post">
         <div class="row">
-
-
 
             <div class="col-lg-8 ">
 
                 <h5>First Name</h5>
-                <input class="form-control" type="text" name="firstName"></br>
+                <check if="{{isset(@errors['firstName']) }}">
+                    <p>{{@errors['firstName'] }}</p>
+                </check>
+                <input class="form-control" type="text" name="firstName" value="{{@firstName}}"></br>
+
                 <h5>Last Name</h5>
-                <input class="form-control" type="text" name="lastName"></br>
+                <check if="{{isset(@errors['lastName']) }}">
+                    <p>{{@errors['lastName'] }}</p>
+                </check>
+                <input class="form-control" type="text" name="lastName" value="{{@firstName}}"></br>
+
                 <h5>Age</h5>
-                <input class="form-control" type="text" name="age"></br>
+                <check if="{{ isset(@errors['age']) }}">
+                    <p>{{ @errors['age'] }}</p>
+                </check>
+                <input class="form-control" type="text" name="age" value="{{ @age }}"></br>
+
                 <h5>Gender</h5>
-                <label class="radio-inline"><input type="radio" name="gender" value="male"> Male</label>&nbsp;&nbsp;
-                <label class="radio-inline"><input type="radio" name="gender" value="female"> Female</label><br>
+                <label class="radio-inline"><input type="radio" name="gender" value="male" <check if="{{ @gender == 'male' }}">checked</check>> Male</label>&nbsp;&nbsp;
+                <label class="radio-inline"><input type="radio" name="gender" value="female" <check if="{{ @gender == 'female' }}">checked</check>> Female</label><br>
+
                 <h5>Phone Number</h5>
-                <input class="form-control" type="text" name="phone"></br>
+                <check if="{{ isset(@errors['phone']) }}">
+                    <p>{{ @errors['phone'] }}</p>
+                </check>
+                <input class="form-control" type="text" name="phone" value="{{ @phone }}"></br>
 
 
             </div>
@@ -49,7 +63,7 @@
             </div>
         </div>
         <div>
-            <button class="btn float-right btn-primary"  type="submit">Next ></button>
+            <button class="btn float-right btn-primary" name="submit" type="submit">Next ></button>
         </div>
     </form>
 </div>
