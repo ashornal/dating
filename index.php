@@ -19,7 +19,7 @@ $f3 = Base::instance();
 //set debug level
 $f3->set('DEBUG', 3);
 
-$f3->set('states', array("washington","california","idaho","oregon"));
+$f3->set('states', array("Washington","California","Idaho","Oregon"));
 $f3->set('indoors', array( "tv", "movies", "cooking", "board games", "puzzles", "reading", "playing cards", "video games"));
 $f3->set('outdoors', array( "hiking", "biking", "swimming", "collecting", "walking", "climbing"));
 
@@ -124,7 +124,8 @@ $f3->route("GET|POST /pages/interests", function($f3,$params)
 }
 );
 //summary
-$f3->route('GET|POST /pages/summary', function($f3,$params) {
+$f3->route('GET|POST /pages/summary', function($f3,$params)
+{
     $f3->set('firstName', $_SESSION['firstName']);
     $f3->set('lastName', $_SESSION['lastName']);
     $f3->set('age', $_SESSION['age']);
