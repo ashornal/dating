@@ -7,9 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="../styles/styles.css">
 </head>
 <body>
+<nav class='navbar navbar-toggleable-sm mb-2' id="navigation-bar">
+    <div class='navbar-nav mr-auto'>
+        <a class='nav-item nav-link' href='http://ashornal.greenriverdev.com/328/assignments/week3/dating/'>My Dating Website</a>
+    </div>
+</nav>
 <div class="container-fluid" style="padding-left: 35px">
     <h1>Personal Information</h1>
     <hr>
@@ -18,7 +23,7 @@
 
 
 
-            <div class="col-lg-6 ">
+            <div class="col-lg-8 ">
 
                 <h5>First Name</h5>
                 <input class="form-control" type="text" name="firstName"></br>
@@ -35,13 +40,16 @@
 
             </div>
 
-            <div class="col-lg-6">
-                <h4>Note:</h4>
+            <div class="col-lg-4">
+                <p id="note"><span id="bold">Note:</span> All information entered is protected by our
+                    <span id="policy">privacy policy</span>. Profile information can only be viewed by
+                    others with your permission.
+                </p>
 
             </div>
         </div>
         <div>
-            <button class="btn float-right btn-primary" id="formbutton" type="submit">Next ></button>
+            <button class="btn float-right btn-primary"  type="submit">Next ></button>
         </div>
     </form>
 </div>

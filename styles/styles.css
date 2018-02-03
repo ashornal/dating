@@ -19,3 +19,18 @@ p.italic {
 body{
     padding-top: 80px;
 }
+#navigation-bar {
+    border: 2px solid;
+    background-color: #D0D3D4;
+}
+#note {
+    border-radius: 10px;
+    border: 2px solid darkgray;
+    background:Gainsboro;
+    padding: 20px;
+    width: 400px;
+    height: 125px;
+}
+#policy {
+    color: #0066ff;
+}

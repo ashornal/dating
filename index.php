@@ -19,6 +19,10 @@ $f3 = Base::instance();
 //set debug level
 $f3->set('DEBUG', 3);
 
+$f3->set('states', array("washington","california","idaho","oregon"));
+$f3->set('indoors', array( "tv", "movies", "cooking", "board games", "puzzles", "reading", "playing cards", "video games"));
+$f3->set('outdoors', array( "hiking", "biking", "swimming", "collecting", "walking", "climbing"));
+
 
 //Define a default route
 $f3->route('GET /', function()
@@ -29,12 +33,14 @@ $f3->route('GET /', function()
     ('pages/home.html');
 }
 );
+//form 1
 $f3->route("GET /pages/personal", function()
 {
     $template = new Template();
     echo $template->render('pages/personal.html');
 }
 );
+//form 2
 $f3->route("POST /pages/profile", function()
 {
     $template = new Template();
@@ -46,6 +52,7 @@ $f3->route("POST /pages/profile", function()
     $_SESSION['phone'] = $_POST['phone'];
 }
 );
+//form 3
 $f3->route("POST /pages/interests", function()
 {
     $template = new Template();
@@ -55,6 +62,7 @@ $f3->route("POST /pages/interests", function()
     $_SESSION['seeking'] = $_POST['seeking'];
     $_SESSION['bio'] = $_POST['bio'];}
 );
+//summary
 $f3->route('GET|POST /pages/summary', function($f3) {
     $_SESSION['indoor'] = $_POST['indoor'];
     echo "<h1>".$_SESSION['indoor']."</h1>";
@@ -68,13 +76,6 @@ $f3->route('GET|POST /pages/summary', function($f3) {
 }
 );
 /*
-$f3->route("POST /pets/results", function()
-{
-    $_SESSION['color'] = $_POST['color'];
-    echo "<h1>Results Page</h1>";
-    echo "Thank you for ordering a ".$_SESSION['color']. " ".$_SESSION['animal'];
-}
-);
 
 $f3->route("GET|POST /new-pet", function($f3)
 {
