@@ -40,7 +40,10 @@
                     <td>Seeking: {{ @seeking }}</td>
                 </tr>
                 <tr>
-                    <td>Interests: </td>
+                    <td>Interests:
+                    <repeat group = "{{ @indoor }}" value = "{{ @activity }}">{{ @activity }},  </repeat>
+                    <repeat group = "{{ @outdoor }}" value = "{{ @activity }}">{{ @activity }},  </repeat>
+                    </td>
                 </tr>
 
             </table>
@@ -50,7 +53,7 @@
         </div>
         <div class="col-lg-6 ">
             <img src="../images/blank.png" class="image"  alt="profile picture" >
-            <h4>Biography</h4>
+            <h4>Biography:</h4>
             <p>{{ @bio }}</p>
         </div>
 

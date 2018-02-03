@@ -17,48 +17,39 @@
 <div class="container-fluid" style="padding-left: 35px">
     <h1>Interests</h1>
     <hr>
-    <form action="./summary" method="post">
+    <form action="" method="post">
         <h5>In-door Interests</h5>
-        <div class="row">
-            <div class="col-sm">
-                <input type="checkbox" name="indoor[]" value="tv">&nbsp;&nbsp;tv</br>
-                <input type="checkbox" name="indoor[]" value="puzzles">&nbsp;&nbsp;puzzles
-            </div>
-            <div class="col-sm">
-                <input type="checkbox" name="indoor[]" value="movies">&nbsp;&nbsp;movies</br>
-                <input type="checkbox" name="indoor[]" value="reading">&nbsp;&nbsp;reading
-            </div>
-            <div class="col-sm">
-                <input type="checkbox" name="indoor[]" value="cooking">&nbsp;&nbsp;cooking</br>
-                <input type="checkbox" name="indoor[]" value="playingcards">&nbsp;&nbsp;playing cards
-            </div>
-            <div class="col-sm">
-                <input type="checkbox" name="indoor[]" value="boardgames">&nbsp;&nbsp;board games</br>
-                <input type="checkbox" name="indoor[]" value="videogames">&nbsp;&nbsp;video games
-            </div>
+        <div class="form-check">
+            <repeat group = "{{ @indoors }}" value = "{{ @activity }}">
+                <div class="col-3 float-left">
+                    <label class="form-check-label"><input class="form-check-label" type="checkbox" name="indoors[]"
+                                                           value="{{ @activity }}"
+                        <check if="!is_null({{ @indoor }})">
+                            <check if="in_array({{ @activity }}, {{ @indoor }})">checked</check>
+                        </check>>
+                        {{ @activity }}
+                    </label>
+                </div>
+            </repeat>
         </div>
         </br>
         <h5>Out-door Interests</h5>
-        <div class="row">
-            <div class="col-sm">
-                <input type="checkbox" name="outdoor[]" value="hiking">&nbsp;&nbsp;hiking</br>
-                <input type="checkbox" name="outdoor[]" value="walking">&nbsp;&nbsp;walking
-            </div>
-            <div class="col-sm">
-                <input type="checkbox" name="outdoor[]" value="biking">&nbsp;&nbsp;biking</br>
-                <input type="checkbox" name="outdoor[]" value="climbing">&nbsp;&nbsp;climbing
-            </div>
-            <div class="col-sm">
-                <input type="checkbox" name="outdoor[]" value="swimming">&nbsp;&nbsp;swimming</br>
-            </div>
-            <div class="col-sm">
-                <input type="checkbox" name="outdoor[]" value="collecting">&nbsp;&nbsp;collecting</br>
-            </div>
-
+        <div class="form-check">
+            <repeat group = "{{ @outdoors }}" value = "{{ @activity }}">
+                <div class="col-3 float-left">
+                    <label class="form-check-label"><input class="form-check-label" type="checkbox" name="outdoors[]"
+                                                           value="{{ @activity }}"
+                        <check if="!is_null({{ @outdoor }})">
+                            <check if="in_array({{ @activity }}, {{ @outdoor }})">checked</check>
+                        </check>>
+                        {{ @activity }}
+                        <label>
+                </div>
+            </repeat>
         </div>
 
         <div>
-            <button class="btn btn-primary float-right" type="submit" >Next ></button>
+            <button class="btn btn-primary float-right" type="submit" name="submit" >Next ></button>
         </div>
     </form>
 
