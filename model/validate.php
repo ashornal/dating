@@ -67,21 +67,28 @@ function validPhone($phone)
 function validOutdoor($activities)
 {
     global $f3;
-    $outside = true;
-    foreach ($activities as $activity)
-    {
-        $outside = in_array($activity, $f3->get('outdoors'));
+    $outside = false;
+    if (isset($activities) && !empty($activities)) {
+        foreach ($activities as $activity)
+        {
+            $outside = in_array($activity, $f3->get('outdoors'));
+        }
+        $outside = true;
     }
+
     return $outside;
 }
 // must be one of the checkboxes
 function validIndoor($activities)
 {
     global $f3;
-    $inside = true;
-    foreach ($activities as $activity)
-    {
-        $inside = in_array($activity, $f3->get('indoors'));
+    $inside = false;
+    if (isset($activities) && !empty($activities)) {
+        foreach ($activities as $activity)
+        {
+            $inside = in_array($activity, $f3->get('indoors'));
+        }
+        $inside = true;
     }
     return $inside;
 }

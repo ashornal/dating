@@ -15,11 +15,8 @@ This is the summary page for a dating website to see your account you created.
     <link rel="stylesheet" href="../styles/styles.css">
 </head>
 <body>
-<nav class='navbar navbar-toggleable-sm mb-2' id="navigation-bar">
-    <div class='navbar-nav mr-auto'>
-        <a class='nav-item nav-link' href='http://ashornal.greenriverdev.com/328/assignments/week3/dating/'>My Dating Website</a>
-    </div>
-</nav>
+<include href="pages/header.html"/>
+
 <div class="container-fluid" >
     <div class="row">
         <div class="col-lg-6 ">
@@ -47,8 +44,12 @@ This is the summary page for a dating website to see your account you created.
                 </tr>
                 <tr>
                     <td>Interests:
-                    <repeat group = "{{ @indoor }}" value = "{{ @activity }}">{{ @activity }},  </repeat>
-                    <repeat group = "{{ @outdoor }}" value = "{{ @activity }}">{{ @activity }},  </repeat>
+                        <check if="{{ isset(@indoor) }}">
+                            <repeat group = "{{ @indoor }}" value = "{{ @activity }}">{{ @activity }},  </repeat>
+                        </check>
+                        <check if="{{ isset(@outdoor) }}">
+                            <repeat group = "{{ @outdoor }}" value = "{{ @activity }}">{{ @activity }},  </repeat>
+                        </check>
                     </td>
                 </tr>
 

@@ -15,11 +15,9 @@ This is the form 1 page for a dating website to create a profile.
     <link rel="stylesheet" href="../styles/styles.css">
 </head>
 <body>
-<nav class='navbar navbar-toggleable-sm mb-2' id="navigation-bar">
-    <div class='navbar-nav mr-auto'>
-        <a class='nav-item nav-link' href='http://ashornal.greenriverdev.com/328/assignments/week3/dating/'>My Dating Website</a>
-    </div>
-</nav>
+
+<include href="pages/header.html"/>
+
 <div class="container-fluid" style="padding-left: 35px">
     <h1>Personal Information</h1>
     <hr>
@@ -38,7 +36,7 @@ This is the form 1 page for a dating website to create a profile.
                 <check if="{{isset(@errors['lastName']) }}">
                     <p>{{@errors['lastName'] }}</p>
                 </check>
-                <input class="form-control" type="text" name="lastName" value="{{@firstName}}"></br>
+                <input class="form-control" type="text" name="lastName" value="{{@lastName}}"></br>
 
                 <h5>Age</h5>
                 <check if="{{ isset(@errors['age']) }}">
@@ -56,6 +54,8 @@ This is the form 1 page for a dating website to create a profile.
                 </check>
                 <input class="form-control" type="text" name="phone" value="{{ @phone }}"></br>
 
+                <label class="form-control-label" for="premium"><span id="bold">Premium Membership</span></label><br>
+                <input type="checkbox" name="premium" id="premium"> Sign me up for a Premium Account!
 
             </div>
 

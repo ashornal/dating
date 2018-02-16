@@ -15,23 +15,23 @@ This is the form 3 page for a dating website to create a profile.
     <link rel="stylesheet" href="../styles/styles.css">
 </head>
 <body>
-<nav class='navbar navbar-toggleable-sm mb-2' id="navigation-bar">
-    <div class='navbar-nav mr-auto'>
-        <a class='nav-item nav-link' href='http://ashornal.greenriverdev.com/328/assignments/week3/dating/'>My Dating Website</a>
-    </div>
-</nav>
+<include href="pages/header.html"/>
+
 <div class="container-fluid" style="padding-left: 35px">
     <h1>Interests</h1>
     <hr>
     <form action="" method="post">
         <h5>In-door Interests</h5>
+
         <div class="form-check">
             <repeat group = "{{ @indoors }}" value = "{{ @activity }}">
                 <div class="col-3 float-left">
                     <label class="form-check-label"><input class="form-check-label" type="checkbox" name="indoors[]"
                                                            value="{{ @activity }}"
                         <check if="!is_null({{ @indoor }})">
+
                             <check if="in_array({{ @activity }}, {{ @indoor }})">checked</check>
+
                         </check>>
                         {{ @activity }}
                     </label>
@@ -40,13 +40,16 @@ This is the form 3 page for a dating website to create a profile.
         </div>
         </br>
         <h5>Out-door Interests</h5>
+
         <div class="form-check">
             <repeat group = "{{ @outdoors }}" value = "{{ @activity }}">
                 <div class="col-3 float-left">
                     <label class="form-check-label"><input class="form-check-label" type="checkbox" name="outdoors[]"
                                                            value="{{ @activity }}"
                         <check if="!is_null({{ @outdoor }})">
+
                             <check if="in_array({{ @activity }}, {{ @outdoor }})">checked</check>
+
                         </check>>
                         {{ @activity }}
                         <label>

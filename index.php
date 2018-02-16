@@ -5,13 +5,14 @@
  * Date: 1/17/2018
  * Time: 9:12 PM
  */
-session_start();
+
 
 error_reporting(E_ALL);
 ini_set('display_errors', 3);
 
 //Require the autoload file
 require_once('vendor/autoload.php');
+session_start();
 
 //Create an instance of the Base Class
 $f3 = Base::instance();
@@ -28,8 +29,8 @@ $f3->set('outdoors', array( "hiking", "biking", "swimming", "collecting", "walki
 $f3->route('GET /', function()
 {
 
-    $view = new View;
-    echo $view->render
+    $template = new Template();
+    echo $template->render
     ('pages/home.html');
 }
 );
@@ -43,11 +44,14 @@ $f3->route("GET|POST /pages/personal", function($f3, $params)
         $age = $_POST['age'];
         $gender = $_POST['gender'];
         $phone = $_POST['phone'];
+        $premium = $_POST['premium'];
         $_SESSION['firstName'] = $firstName;
         $_SESSION['lastName'] = $lastName;
         $_SESSION['age'] = $age;
         $_SESSION['gender'] = $gender;
         $_SESSION['phone'] = $phone;
+        $_SESSION['premium'] = $premium;
+
 
         include('model/validate.php');
 
@@ -56,6 +60,7 @@ $f3->route("GET|POST /pages/personal", function($f3, $params)
         $f3->set('age', $age);
         $f3->set('gender', $gender);
         $f3->set('phone', $phone);
+        $f3->set('premium', $premium);
         $f3->set('errors', $errors);
         $f3->set('success', $success);
     }
@@ -94,7 +99,15 @@ $f3->route("GET|POST /pages/profile", function($f3, $params)
     echo $template->render('pages/profile.html');
     if($success)
     {
-        $f3->reroute('./interests');
+        if(!isset($_SESSION['premium']))
+        {
+            $f3->reroute('./summary');
+        }
+        else
+        {
+            $f3->reroute('./interests');
+        }
+
     }
 
 }
@@ -134,8 +147,13 @@ $f3->route('GET|POST /pages/summary', function($f3,$params)
     $f3->set('email', $_SESSION['email']);
     $f3->set('state', $_SESSION['state']);
     $f3->set('seeking', $_SESSION['seeking']);
-    $f3->set('indoor', $_SESSION['indoor']);
-    $f3->set('outdoor', $_SESSION['outdoor']);
+    if (isset($_SESSION['indoor']) && !empty($_SESSION['indoor'])) {
+        $f3->set('indoor', $_SESSION['indoor']);
+    }
+    if (isset($_SESSION['outdoor']) && !empty($_SESSION['outdoor'])) {
+
+        $f3->set('outdoor', $_SESSION['outdoor']);
+    }
     $f3->set('bio', $_SESSION['bio']);
 
     $template = new Template();
