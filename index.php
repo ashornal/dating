@@ -55,6 +55,17 @@ $f3->route("GET|POST /pages/personal", function($f3, $params)
 
         include('model/validate.php');
 
+        if(!isset($_SESSION['premium']))
+        {
+            $member = new Member($firstName, $lastName, $age, $gender, $phone);
+            $_SESSION['member'] = $member;
+        }
+        else
+        {
+            $member = new PremiumMember($firstName, $lastName, $age, $gender, $phone);
+            $_SESSION['member'] = $member;
+        }
+
         $f3->set('firstName', $firstName);
         $f3->set('lastName', $lastName);
         $f3->set('age', $age);
@@ -86,6 +97,7 @@ $f3->route("GET|POST /pages/profile", function($f3, $params)
         $_SESSION['bio'] = $bio;
         $_SESSION['seeking'] = $seeking;
 
+
         include('model/validate.php');
 
         $f3->set('email', $email);
@@ -94,6 +106,14 @@ $f3->route("GET|POST /pages/profile", function($f3, $params)
         $f3->set('seeking', $seeking);
         $f3->set('errors', $errors);
         $f3->set('success', $success);
+
+        $member = $_SESSION['member'];
+        $member->setEmail($_SESSION['email']);
+        $member->setState($_SESSION['state']);
+        $member->setSeeking($_SESSION['seeking']);
+        $member->setBio($_SESSION['bio']);
+        $_SESSION['member'] = $member;
+
     }
     $template = new Template();
     echo $template->render('pages/profile.html');
@@ -123,6 +143,11 @@ $f3->route("GET|POST /pages/interests", function($f3,$params)
         $_SESSION['outdoor'] = $outdoor;
 
         include('model/validate.php');
+
+        $member = $_SESSION['member'];
+        $member->setInDoorActivities($indoor);
+        $member->setOutDoorActivities($outdoor);
+        $_SESSION['member'] = $member;
 
         $f3->set('indoor', $indoor);
         $f3->set('outdoor', $indoor);
@@ -155,6 +180,10 @@ $f3->route('GET|POST /pages/summary', function($f3,$params)
         $f3->set('outdoor', $_SESSION['outdoor']);
     }
     $f3->set('bio', $_SESSION['bio']);
+    $f3->set('premium', $_SESSION['premium']);
+    $f3->set('member', $_SESSION['member']);
+
+    print_r($_SESSION['member']);
 
     $template = new Template();
     echo $template->render('pages/summary.html');
