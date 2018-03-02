@@ -42,7 +42,7 @@ This is the summary page for a dating website to see your account you created.
                 <tr>
                     <td>Seeking: {{ @seeking }}</td>
                 </tr>
-                <check if="{{ isset(@premium)}}">
+                <check if="{{ @member}} instanceof PremiumMember">
                     <tr>
                         <td>Interests:
                             <check if="{{ isset(@indoor) }}">

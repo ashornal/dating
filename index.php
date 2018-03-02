@@ -6,14 +6,12 @@
  * Time: 9:12 PM
  */
 
-error_reporting(E_ALL);
-ini_set('display_errors', 3);
-
-
 //Require the autoload file
 require_once('vendor/autoload.php');
-
 session_start();
+
+error_reporting(E_ALL);
+ini_set('display_errors', 3);
 
 //Create an instance of the Base Class
 $f3 = Base::instance();
@@ -43,15 +41,12 @@ $f3->route("GET|POST /pages/personal", function($f3, $params)
         $age = $_POST['age'];
         $gender = $_POST['gender'];
         $phone = $_POST['phone'];
-        $premium = $_POST['premium'];
 
         $_SESSION['firstName'] = $firstName;
         $_SESSION['lastName'] = $lastName;
         $_SESSION['age'] = $age;
         $_SESSION['gender'] = $gender;
         $_SESSION['phone'] = $phone;
-        $_SESSION['premium'] = $premium;
-
 
         include('model/validate.php');
 
@@ -60,12 +55,17 @@ $f3->route("GET|POST /pages/personal", function($f3, $params)
             $member = new PremiumMember($_SESSION['firstName'], $_SESSION['lastName'], $_SESSION['age'],
                 $_SESSION['gender'], $_SESSION['phone']);
             $_SESSION['member'] = $member;
+
+            $premium = $_POST['premium'];
+            $_SESSION['premium'] = $premium;
+            $f3->set('premium', $premium);
         }
         else
         {
             $member = new Member($_SESSION['firstName'], $_SESSION['lastName'], $_SESSION['age'],
                 $_SESSION['gender'], $_SESSION['phone']);
             $_SESSION['member'] = $member;
+
         }
 
         $f3->set('firstName', $firstName);
@@ -73,14 +73,15 @@ $f3->route("GET|POST /pages/personal", function($f3, $params)
         $f3->set('age', $age);
         $f3->set('gender', $gender);
         $f3->set('phone', $phone);
-        $f3->set('premium', $premium);
         $f3->set('errors', $errors);
         $f3->set('success', $success);
         $f3->set('member', $member);
     }
+
     $template = new Template();
     echo $template->render('pages/personal.html');
-    if($success) {
+    if($success)
+    {
         $f3->reroute('./profile');
     }
 }
@@ -118,18 +119,20 @@ $f3->route("GET|POST /pages/profile", function($f3, $params)
         $member->setSeeking($seeking);
         $member->setBio($bio);
 
+        $_SESSION['member'] = $member;
     }
     $template = new Template();
     echo $template->render('pages/profile.html');
     if($success)
     {
-        if($member instanceof Member)
+        if($member instanceof PremiumMember)
         {
-            $f3->reroute('./summary');
+            $f3->reroute('./interests');
         }
         else
         {
-            $f3->reroute('./interests');
+
+            $f3->reroute('./summary');
         }
     }
 }
@@ -154,8 +157,8 @@ $f3->route("GET|POST /pages/interests", function($f3,$params)
         $f3->set('success', $success);
         $f3->set('member', $member);
 
-        $member->setIndoorInterests($indoor);
-        $member->setOutdoorInterests($outdoor);
+        $member->setIndoorActivities($indoor);
+        $member->setOutdoorActivities($outdoor);
     }
     $template = new Template();
     echo $template->render('pages/interests.html');
@@ -183,17 +186,17 @@ $f3->route('GET|POST /pages/summary', function($f3,$params)
     $f3->set('bio', $_SESSION['bio']);
     $f3->set('member', $member);
 
-    $interests = "";
-    $image = "";
+    $interests = "null";
+    $image = "null";
     $premium = 0;
     if($member instanceof PremiumMember)
     {
-        $interests = implode(", ", $member->getIndoorInterests()).", ".implode(", ", $member->getOutdoorInterests());
+        $interests = implode(", ", $member->getIndoorActivities()).", ".implode(", ", $member->getOutdoorActivities());
         $premium = 1;
     }
 
     $database = new Database();
-    $database->instertMember($member->getFname(), $member->getLname(), $member->getAge(), $member->getGender(), $member->getPhone(),
+    $database->insertMember($member->getFname(), $member->getLname(), $member->getAge(), $member->getGender(), $member->getPhone(),
         $member->getEmail(), $member->getState(), $member->getSeeking(), $member->getBio(), $premium, $image, $interests);
 
     $template = new Template();
