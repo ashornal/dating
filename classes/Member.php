@@ -72,12 +72,18 @@ class Member
         return $this->lname;
     }
     /**
-     * Sets the age of the user
+     * Sets the age of the user if its a number
      * @param $age age of user
      */
     function setAge($age)
     {
-        $this->age = $age;
+        //set the age if is numeric
+        if (is_numeric($age))
+        {
+            $this->age = $age;
+        }
+        //if not, set age to 0
+        $this->age = "0";
     }
     /**
      * Get the age of the user
@@ -104,12 +110,18 @@ class Member
         return $this->gender;
     }
     /**
-     * Sets the phone number of the user
+     * Sets the phone number of the user if is numeric
      * @param $phone phone number of user
      */
     function setPhone($phone)
     {
-        $this->phone = $phone;
+        //phone must be numeric
+        if(is_numeric($phone))
+        {
+            $this->phone = $phone;
+        }
+        //if not, default number is set
+        $this->phone = "1234567890";
     }
     /**
      * Get the phone number of user
@@ -120,12 +132,18 @@ class Member
         return $this->phone;
     }
     /**
-     * Sets the email of the user
+     * Sets the email of the user if contains "@"
      * @param $email email of user
      */
     function setEmail($email)
     {
-        $this->email = $email;
+        //email must contain "@"
+        if (strpos($email, '@') !== false)
+        {
+            $this->email = $email;
+        }
+        //if not , default email is empty
+        $this->email = " ";
     }
     /**
      * Get the email of user
@@ -137,7 +155,7 @@ class Member
     }
     /**
      * Sets the state location of user
-     * @param $state state of user
+     * @param $location state of user
      */
     function setState($state)
     {
