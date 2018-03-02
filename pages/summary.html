@@ -42,17 +42,18 @@ This is the summary page for a dating website to see your account you created.
                 <tr>
                     <td>Seeking: {{ @seeking }}</td>
                 </tr>
-                <tr>
-                    <td>Interests:
-                        <check if="{{ isset(@indoor) }}">
-                            <repeat group = "{{ @indoor }}" value = "{{ @activity }}">{{ @activity }},  </repeat>
-                        </check>
-                        <check if="{{ isset(@outdoor) }}">
-                            <repeat group = "{{ @outdoor }}" value = "{{ @activity }}">{{ @activity }},  </repeat>
-                        </check>
-                    </td>
-                </tr>
-
+                <check if="{{ isset(@premium)}}">
+                    <tr>
+                        <td>Interests:
+                            <check if="{{ isset(@indoor) }}">
+                                <repeat group = "{{ @indoor }}" value = "{{ @activity }}">{{ @activity }},  </repeat>
+                            </check>
+                            <check if="{{ isset(@outdoor) }}">
+                                <repeat group = "{{ @outdoor }}" value = "{{ @activity }}">{{ @activity }},  </repeat>
+                            </check>
+                        </td>
+                    </tr>
+                </check>
             </table>
             <div class="float-right">
                 <button class="btn btn-primary btn-lg" type="submit">Contact Me!</button>
