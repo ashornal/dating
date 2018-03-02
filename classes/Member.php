@@ -7,7 +7,7 @@
  */
 
 /**
- * Class Member represents a member of the dating site
+ * Class Member.class represents a member of the dating site
  */
 class Member
 {
@@ -22,7 +22,7 @@ class Member
     protected $bio;
 
     /**
-     * Member constructor.
+     * Member.class constructor.
      * @param $fname first name of user
      * @param $lname last name of user
      * @param $age age of user
@@ -48,6 +48,7 @@ class Member
         $this->fname = $fname;
     }
     /**
+     * Gets the first name of user
      * @return first name of user
      */
     function getFName()
@@ -63,6 +64,7 @@ class Member
         $this->lname = $lname;
     }
     /**
+     * Get the last name of user
      * @return last name of user
      */
     function getLName()
@@ -78,6 +80,7 @@ class Member
         $this->age = $age;
     }
     /**
+     * Get the age of the user
      * @return age of user
      */
     function getAge()
@@ -93,6 +96,7 @@ class Member
         $this->gender = $gender;
     }
     /**
+     * Get the gender of the user
      * @return gender of user
      */
     function getGender()
@@ -108,6 +112,7 @@ class Member
         $this->phone = $phone;
     }
     /**
+     * Get the phone number of user
      * @return phone number of user
      */
     function getPhone()
@@ -123,6 +128,7 @@ class Member
         $this->email = $email;
     }
     /**
+     * Get the email of user
      * @return email of user
      */
     function getEmail()
@@ -138,6 +144,7 @@ class Member
         $this->state = $state;
     }
     /**
+     * Get the state of the user
      * @return state of the user
      */
     function getState()
@@ -153,6 +160,7 @@ class Member
         $this->seeking = $seeking;
     }
     /**
+     * Get the seeking gender of user
      * @return gender user is seeking
      */
     function getSeeking()
@@ -168,6 +176,7 @@ class Member
         $this->bio = $bio;
     }
     /**
+     * Get the bio of the user
      * @return biography of user
      */
     function getBio()

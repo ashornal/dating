@@ -7,7 +7,7 @@
  */
 
 /**
- * Class Premium Member represents a premium member of the dating site that extends member
+ * Class Premium Member.class represents a premium member of the dating site that extends member
  */
 class PremiumMember extends Member
 {
@@ -15,6 +15,7 @@ class PremiumMember extends Member
     private $_outDoorActivities = array();
 
     /**
+     * Get the array of indoor activities
      * @return array of indoor activities
      */
     function getIndoorActivities()
@@ -32,6 +33,7 @@ class PremiumMember extends Member
     }
 
     /**
+     * Get the array of outdoor activities
      * @return array of outdoor activities
      */
     function getOutDoorActivities()
