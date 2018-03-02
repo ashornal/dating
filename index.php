@@ -6,19 +6,20 @@
  * Time: 9:12 PM
  */
 
-
 error_reporting(E_ALL);
 ini_set('display_errors', 3);
 
+
 //Require the autoload file
 require_once('vendor/autoload.php');
+
 session_start();
 
 //Create an instance of the Base Class
 $f3 = Base::instance();
 
-//set debug level
-$f3->set('DEBUG', 3);
+require_once('/home/ashornal/debug.php');
+
 
 $f3->set('states', array("Washington","California","Idaho","Oregon"));
 $f3->set('indoors', array( "tv", "movies", "cooking", "board games", "puzzles", "reading", "playing cards", "video games"));
@@ -28,10 +29,8 @@ $f3->set('outdoors', array( "hiking", "biking", "swimming", "collecting", "walki
 //Define a default route
 $f3->route('GET /', function()
 {
-
     $template = new Template();
-    echo $template->render
-    ('pages/home.html');
+    echo $template->render('pages/home.html');
 }
 );
 //form 1
@@ -45,6 +44,7 @@ $f3->route("GET|POST /pages/personal", function($f3, $params)
         $gender = $_POST['gender'];
         $phone = $_POST['phone'];
         $premium = $_POST['premium'];
+
         $_SESSION['firstName'] = $firstName;
         $_SESSION['lastName'] = $lastName;
         $_SESSION['age'] = $age;
@@ -55,14 +55,16 @@ $f3->route("GET|POST /pages/personal", function($f3, $params)
 
         include('model/validate.php');
 
-        if(!isset($_SESSION['premium']))
+        if(isset($_POST['premium']))
         {
-            $member = new Member($firstName, $lastName, $age, $gender, $phone);
+            $member = new PremiumMember($_SESSION['firstName'], $_SESSION['lastName'], $_SESSION['age'],
+                $_SESSION['gender'], $_SESSION['phone']);
             $_SESSION['member'] = $member;
         }
         else
         {
-            $member = new PremiumMember($firstName, $lastName, $age, $gender, $phone);
+            $member = new Member($_SESSION['firstName'], $_SESSION['lastName'], $_SESSION['age'],
+                $_SESSION['gender'], $_SESSION['phone']);
             $_SESSION['member'] = $member;
         }
 
@@ -74,6 +76,7 @@ $f3->route("GET|POST /pages/personal", function($f3, $params)
         $f3->set('premium', $premium);
         $f3->set('errors', $errors);
         $f3->set('success', $success);
+        $f3->set('member', $member);
     }
     $template = new Template();
     echo $template->render('pages/personal.html');
@@ -85,6 +88,8 @@ $f3->route("GET|POST /pages/personal", function($f3, $params)
 //form 2
 $f3->route("GET|POST /pages/profile", function($f3, $params)
 {
+    $member = $_SESSION['member'];
+
     if(isset($_POST['submit']))
     {
         $email = $_POST['email'];
@@ -106,20 +111,19 @@ $f3->route("GET|POST /pages/profile", function($f3, $params)
         $f3->set('seeking', $seeking);
         $f3->set('errors', $errors);
         $f3->set('success', $success);
+        $f3->set('member', $member);
 
-        $member = $_SESSION['member'];
-        $member->setEmail($_SESSION['email']);
-        $member->setState($_SESSION['state']);
-        $member->setSeeking($_SESSION['seeking']);
-        $member->setBio($_SESSION['bio']);
-        $_SESSION['member'] = $member;
+        $member->setEmail($email);
+        $member->setState($state);
+        $member->setSeeking($seeking);
+        $member->setBio($bio);
 
     }
     $template = new Template();
     echo $template->render('pages/profile.html');
     if($success)
     {
-        if(!isset($_SESSION['premium']))
+        if($member instanceof Member)
         {
             $f3->reroute('./summary');
         }
@@ -127,14 +131,14 @@ $f3->route("GET|POST /pages/profile", function($f3, $params)
         {
             $f3->reroute('./interests');
         }
-
     }
-
 }
 );
 //form 3
 $f3->route("GET|POST /pages/interests", function($f3,$params)
 {
+    $member = $_SESSION['member'];
+
     if (isset($_POST['submit'])) {
         $indoor = $_POST['indoors'];
         $outdoor = $_POST['outdoors'];
@@ -144,19 +148,19 @@ $f3->route("GET|POST /pages/interests", function($f3,$params)
 
         include('model/validate.php');
 
-        $member = $_SESSION['member'];
-        $member->setInDoorActivities($indoor);
-        $member->setOutDoorActivities($outdoor);
-        $_SESSION['member'] = $member;
-
         $f3->set('indoor', $indoor);
         $f3->set('outdoor', $indoor);
         $f3->set('errors', $errors);
         $f3->set('success', $success);
+        $f3->set('member', $member);
+
+        $member->setIndoorInterests($indoor);
+        $member->setOutdoorInterests($outdoor);
     }
     $template = new Template();
     echo $template->render('pages/interests.html');
-    if ($success) {
+    if ($success)
+    {
         $f3->reroute('./summary');
     }
 }
@@ -164,6 +168,8 @@ $f3->route("GET|POST /pages/interests", function($f3,$params)
 //summary
 $f3->route('GET|POST /pages/summary', function($f3,$params)
 {
+    $member = $_SESSION['member'];
+
     $f3->set('firstName', $_SESSION['firstName']);
     $f3->set('lastName', $_SESSION['lastName']);
     $f3->set('age', $_SESSION['age']);
@@ -172,18 +178,23 @@ $f3->route('GET|POST /pages/summary', function($f3,$params)
     $f3->set('email', $_SESSION['email']);
     $f3->set('state', $_SESSION['state']);
     $f3->set('seeking', $_SESSION['seeking']);
-    if (isset($_SESSION['indoor']) && !empty($_SESSION['indoor'])) {
-        $f3->set('indoor', $_SESSION['indoor']);
-    }
-    if (isset($_SESSION['outdoor']) && !empty($_SESSION['outdoor'])) {
-
-        $f3->set('outdoor', $_SESSION['outdoor']);
-    }
+    $f3->set('indoor', $_SESSION['indoor']);
+    $f3->set('outdoor', $_SESSION['outdoor']);
     $f3->set('bio', $_SESSION['bio']);
-    $f3->set('premium', $_SESSION['premium']);
-    $f3->set('member', $_SESSION['member']);
+    $f3->set('member', $member);
 
-    print_r($_SESSION['member']);
+    $interests = "";
+    $image = "";
+    $premium = 0;
+    if($member instanceof PremiumMember)
+    {
+        $interests = implode(", ", $member->getIndoorInterests()).", ".implode(", ", $member->getOutdoorInterests());
+        $premium = 1;
+    }
+
+    $database = new Database();
+    $database->instertMember($member->getFname(), $member->getLname(), $member->getAge(), $member->getGender(), $member->getPhone(),
+        $member->getEmail(), $member->getState(), $member->getSeeking(), $member->getBio(), $premium, $image, $interests);
 
     $template = new Template();
     echo $template->render('pages/summary.html');
