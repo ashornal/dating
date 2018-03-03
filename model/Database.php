@@ -71,7 +71,6 @@ class Database
 
 
         //4. Execute the query
-        //$result =
         $statement->execute();
 
         $id = $this->dbh->lastInsertId();
@@ -79,12 +78,15 @@ class Database
 
     function getMembers()
     {
-
+        // Define the query
         $sql = "SELECT * FROM Members ORDER BY lname";
+        // Prepare the statement
         $statement = $this->dbh->prepare($sql);
+        // Execute the statement
         $statement->execute();
+        // Process the result
         $row = $statement->fetch(PDO::FETCH_ASSOC);
-        return $row;
 
+        return $row;
     }
 }

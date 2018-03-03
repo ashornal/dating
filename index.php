@@ -204,15 +204,13 @@ $f3->route('GET|POST /pages/summary', function($f3,$params)
 }
 );
 //member list
-$f3->route('GET|POST /admin', function($f3, $params) {
+$f3->route('GET /admin', function($f3, $params) {
     $database = new Database();
     $member = $database->getMembers();
     $f3->set('members', $member);
-
     $template = new Template();
     echo $template->render('pages/member.html');
 }
 );
-
 //Run Fat-Free
 $f3->run();
