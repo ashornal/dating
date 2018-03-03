@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Members</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="../styles/styles.css">
+
+</head>
+<body>
+<include href="pages/header.html"/>
+<div class="container">
+    <div class="table-responsive">
+        <table class="table">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>State</th>
+                <th>Gender</th>
+                <th>Seeking</th>
+                <th>Premium</th>
+                <th>Interests</th>
+            </tr>
+            <repeat group="{{ @members}}" value="{{ @member }}">
+                <tr>
+                    <td>{{@member['member_id']}}</td>
+                    <td>{{@member['fname']}} {{@member['lname']}}</td>
+                    <td>{{@member['age']}}</td>
+                    <td>{{@member['gender']}}</td>
+                    <td>{{@member['phone']}}</td>
+                    <td>{{@member['email']}}</td>
+                    <td>{{@member['state']}}</td>
+                    <td>{{@member['seeking']}}</td>
+                    <td>{{@member['bio']}}</td>
+                    <td><input type="checkbox"  disabled <check if="{{@member['premium'] == 1}}">checked</check>></td>
+                    <td>{{@member['interests']}}</td>
+                </tr>
+            </repeat>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

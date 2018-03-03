@@ -40,20 +40,20 @@ class Database
         }
         catch (PDOException $e) {
             echo $e->getMessage();
-            //echo "Not Connected...";
         }
     }
 
     function insertMember($fname, $lname, $age, $gender, $phone, $email, $state, $seeking, $bio, $premium, $image, $interests)
     {
-        global $dbh;
+        //global $dbh;
 
         //1. Define the query
         $sql = "INSERT INTO Members(fname, lname, age, gender, phone, email, state, seeking, bio, premium, image, interests)
           VALUES (:fname, :lname, :age, :gender, :phone, :email, :state, :seeking, :bio, :premium, :image, :interests)";
 
         //2. Prepare the statement
-        $statement = $dbh->prepare($sql);
+        $statement = $this->dbh->prepare($sql);
+
 
         //3. Bind parameters
         $statement->bindParam(':fname', $fname, PDO::PARAM_STR);
@@ -71,13 +71,20 @@ class Database
 
 
         //4. Execute the query
-        $result = $statement->execute();
+        //$result =
+        $statement->execute();
 
-        $id = $dbh->lastInsertId();
+        $id = $this->dbh->lastInsertId();
     }
 
     function getMembers()
     {
-        
+
+        $sql = "SELECT * FROM Members ORDER BY lname";
+        $statement = $this->dbh->prepare($sql);
+        $statement->execute();
+        $row = $statement->fetch(PDO::FETCH_ASSOC);
+        return $row;
+
     }
 }

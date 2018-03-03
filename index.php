@@ -16,7 +16,7 @@ ini_set('display_errors', 3);
 //Create an instance of the Base Class
 $f3 = Base::instance();
 
-require_once('/home/ashornal/debug.php');
+//require_once('/home/ashornal/debug.php');
 
 
 $f3->set('states', array("Washington","California","Idaho","Oregon"));
@@ -201,7 +201,16 @@ $f3->route('GET|POST /pages/summary', function($f3,$params)
 
     $template = new Template();
     echo $template->render('pages/summary.html');
+}
+);
+//member list
+$f3->route('GET|POST /admin', function($f3, $params) {
+    $database = new Database();
+    $member = $database->getMembers();
+    $f3->set('members', $member);
 
+    $template = new Template();
+    echo $template->render('pages/member.html');
 }
 );
 
