@@ -85,7 +85,7 @@ class Database
         // Execute the statement
         $statement->execute();
         // Process the result
-        $row = $statement->fetch(PDO::FETCH_ASSOC);
+        $row = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         return $row;
     }
